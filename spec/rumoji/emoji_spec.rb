@@ -12,11 +12,11 @@ describe Rumoji::Emoji do
     Rumoji::Emoji.new(poo_string, symbols, emoji_name)
   end
 
-  it("has a name") { subject.name.must_equal emoji_name }
-  it("has a cheat sheet code") { symbols.must_include subject.code[1...-1].intern } 
-  it("can test if it includes a cheat sheet code") { symbols.all?{|symbol| subject.include?(symbol) }.must_equal true }
-  it("converts to the emoji string") { subject.to_s.must_equal poo_string }
-  it("converts to a hex code") { subject.hex.must_equal "1F4A9" }
+  it("has a name") { _(subject.name).must_equal emoji_name }
+  it("has a cheat sheet code") { _(symbols).must_include subject.code[1...-1].intern }
+  it("can test if it includes a cheat sheet code") { _(symbols.all?{|symbol| subject.include?(symbol) }).must_equal true }
+  it("converts to the emoji string") { _(subject.to_s).must_equal poo_string }
+  it("converts to a hex code") { _(subject.hex).must_equal "1F4A9" }
 
   describe "inferring the name" do
     let (:symbol) { :person_with_pouting_face }
@@ -24,7 +24,7 @@ describe Rumoji::Emoji do
       Rumoji::Emoji.new("\u{1F64E}", symbol)
     end
 
-    it("infers the name from the symbol") { subject.name.must_equal "PERSON WITH POUTING FACE" }
+    it("infers the name from the symbol") { _(subject.name).must_equal "PERSON WITH POUTING FACE" }
   end
 
   describe "with multiple codepoints" do
@@ -51,10 +51,10 @@ describe Rumoji::Emoji do
       Rumoji::Emoji.new(us_string, symbol, emoji_name)
     end
 
-    it("has one symbol, representing the code") { subject.symbol.must_equal symbol }
-    it("has one cheat sheet code") { subject.code[1...-1].intern.must_equal symbol }
-    it("includes the symbol") { subject.must_include symbol }
-    it("transforms to the correct string") { subject.to_s.must_equal us_string }
+    it("has one symbol, representing the code") { _(subject.symbol).must_equal symbol }
+    it("has one cheat sheet code") { _(subject.code[1...-1].intern).must_equal symbol }
+    it("includes the symbol") { _(subject).must_include symbol }
+    it("transforms to the correct string") { _(subject.to_s).must_equal us_string }
   end
 
   describe "factory methods" do
@@ -63,15 +63,15 @@ describe Rumoji::Emoji do
     let(:smile_sym) { :smile }
 
     it "finds an emoji from cheat sheet code symbol" do
-      subject.find(smile_sym).to_s.must_equal smile_str
+      _(subject.find(smile_sym).to_s).must_equal smile_str
     end
 
     it "finds an emoji from cheat sheet code string" do
-      subject.find(smile_sym.to_s).to_s.must_equal smile_str
+      _(subject.find(smile_sym.to_s).to_s).must_equal smile_str
     end
 
     it "finds an emoji from a string" do
-      subject.find_by_string(smile_str).symbol.must_equal smile_sym
+      _(subject.find_by_string(smile_str).symbol).must_equal smile_sym
     end
   end
 end
