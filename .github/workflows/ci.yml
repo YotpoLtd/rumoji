@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch: # allow manual triggering of the workflow
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version-file: '.ruby-version'
+        bundler-cache: true
+    
+    - name: Install dependencies
+      run: |
+        gem install bundler -v '2.3.27'
+        bundle install
+    
+    - name: Run tests
+      run: bundle exec rake
